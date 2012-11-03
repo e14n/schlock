@@ -1,0 +1,55 @@
+{
+    "name": "schlock",
+
+    "description": "Poorly-crafted in-process lock broker",
+
+    "homepage": "http://github.com/e14n/schlock",
+
+    "version": "0.1.0",
+
+    "keywords": ["schlock",
+                 "lock",
+                 "synchronization",
+                 "sync",
+                 "mutex",
+                 "readlock",
+                 "writelock",
+                 "read-write",
+                 "producer",
+                 "consumer"],
+
+    "engines": {
+        "node": "0.8.x"
+    },
+
+    "author": "Evan Prodromou <evan@e14n.com>",
+
+    "scripts": {
+        "test": "vows -i test/*-test.js"
+    },
+
+    "main": "./lib/schlock.js",
+
+    "directories": {
+        "lib": "./lib/"
+    },
+
+    "devDependencies": {
+        "vows": "0.6.x"
+    },
+
+    "dependencies": {
+    },
+
+    "repository": {
+        "type":  "git",
+        "url": "git://github.com/e14n/schlock.git"
+    },
+
+    "licenses": [
+        {
+            "type": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        }
+    ]
+}
