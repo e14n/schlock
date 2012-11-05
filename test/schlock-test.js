@@ -286,7 +286,46 @@ suite.addBatch({
                         assert.equal(results[i], i+1);
                     }
                 }
+            },
+            "and we writeLock a resource twice in sequence": {
+                topic: function(schlock) {
+                    var callback = this.callback,
+                        resource6 = 0;
+
+                    Step(
+                        function() {
+                            schlock.writeLock("resource6", this);
+                        },
+                        function(err) {
+                            if (err) throw err;
+                            resource6++;
+                            schlock.writeUnlock("resource6", this);
+                        },
+                        function(err) {
+                            if (err) throw err;
+                            schlock.writeLock("resource6", this);
+                        },
+                        function(err) {
+                            if (err) throw err;
+                            resource6++;
+                            schlock.writeUnlock("resource6", this);
+                        },
+                        function(err) {
+                            if (err) {
+                                callback(err, null);
+                            } else {
+                                callback(null, resource6);
+                            }
+                        }
+                    );
+                },
+                "it works": function(err, results) {
+                    assert.ifError(err);
+                    assert.isNumber(results);
+                    assert.equal(results, 2);
+                }
             }
+
         }
     }
 });
