@@ -35,7 +35,8 @@
     },
 
     "devDependencies": {
-        "vows": "0.6.x"
+        "vows": "0.6.x",
+        "step": "0.0.x"
     },
 
     "dependencies": {
