@@ -235,6 +235,57 @@ suite.addBatch({
                         assert.equal(results[i], 4);
                     }
                 }
+            },
+            "and we writeLock a resource multiple times": {
+                topic: function(schlock) {
+                    var callback = this.callback,
+                        resource5 = 0;
+
+                    Step(
+                        function() {
+                            var i,
+                                group = this.group(),
+                                writer = function(cb) {
+                                    return function(err) {
+                                        var value;
+                                        if (err) {
+                                            cb(err, null);
+                                        } else {
+                                            resource5++;
+                                            value = resource5;
+                                            schlock.writeUnlock("resource5", function(err) {
+                                                if (err) {
+                                                    cb(err, null);
+                                                } else {
+                                                    cb(null, value);
+                                                }
+                                            });
+                                        }
+                                    };
+                                };
+
+                            for (i = 0; i < 10; i++) {
+                                schlock.writeLock("resource5", writer(group()));
+                            }
+                        },
+                        function(err, results) {
+                            if (err) {
+                                callback(err, null);
+                            } else {
+                                callback(null, results);
+                            }
+                        }
+                    );
+                },
+                "it works": function(err, results) {
+                    var i;
+                    assert.ifError(err);
+                    assert.isArray(results);
+                    assert.lengthOf(results, 10);
+                    for (i = 0; i < 10; i++) {
+                        assert.equal(results[i], i+1);
+                    }
+                }
             }
         }
     }
