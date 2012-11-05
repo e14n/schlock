@@ -17,7 +17,8 @@
 // limitations under the License.
 
 var assert = require("assert"),
-    vows = require("vows");
+    vows = require("vows"),
+    Step = require("step");
 
 var suite = vows.describe("schlock module");
 
@@ -47,6 +48,64 @@ suite.addBatch({
             },
             "it has a writeUnlock() method": function(schlock) {
                 assert.isFunction(schlock.writeUnlock);
+            },
+            "and we readLock a resource": {
+                topic: function(schlock) {
+                    var resource1 = 42,
+                        value,
+                        callback = this.callback;
+
+                    Step(
+                        function() {
+                            schlock.readLock("resource1", this);
+                        },
+                        function(err) {
+                            if (err) throw err;
+                            value = resource1;
+                            schlock.readUnlock("resource1", this);
+                        },
+                        function(err) {
+                            if (err) {
+                                callback(err, null);
+                            } else {
+                                callback(null, value);
+                            }
+                        }
+                    );
+                },
+                "it works": function(err, value) {
+                    assert.ifError(err);
+                    assert.equal(value, 42);
+                }
+            },
+            "and we writeLock a resource": {
+                topic: function(schlock) {
+                    var resource2 = 23,
+                        value,
+                        callback = this.callback;
+
+                    Step(
+                        function() {
+                            schlock.writeLock("resource2", this);
+                        },
+                        function(err) {
+                            if (err) throw err;
+                            resource2 = 16;
+                            schlock.writeUnlock("resource2", this);
+                        },
+                        function(err) {
+                            if (err) {
+                                callback(err, null);
+                            } else {
+                                callback(null, resource2);
+                            }
+                        }
+                    );
+                },
+                "it works": function(err, value) {
+                    assert.ifError(err);
+                    assert.equal(value, 16);
+                }
             }
         }
     }
