@@ -36,7 +36,8 @@
 
     "devDependencies": {
         "vows": "0.6.x",
-        "step": "0.0.x"
+        "step": "0.0.x",
+        "bunyan": "0.14.x"
     },
 
     "dependencies": {
