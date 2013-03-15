@@ -5,7 +5,7 @@
 
     "homepage": "http://github.com/e14n/schlock",
 
-    "version": "0.2.0",
+    "version": "0.2.1",
 
     "keywords": ["schlock",
                  "lock",
@@ -19,7 +19,7 @@
                  "consumer"],
 
     "engines": {
-        "node": "0.8.x"
+        "node": ">= 0.8.0"
     },
 
     "author": "Evan Prodromou <evan@e14n.com>",
@@ -35,9 +35,9 @@
     },
 
     "devDependencies": {
-        "vows": "0.6.x",
+        "vows": "0.7.x",
         "step": "0.0.x",
-        "bunyan": "0.14.x"
+        "bunyan": "0.19.x"
     },
 
     "dependencies": {
